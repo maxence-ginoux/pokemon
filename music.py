@@ -14,4 +14,4 @@ class Music:
     def set_volume(self, volume):
         pygame.mixer.music.set_volume(volume)
     def change_music_opening(self):
-        self.current_song = pygame.mixer.music.load( 'asets/Générique.mp3')
+        self.current_song = pygame.mixer.music.load( 'asetsi/Générique.mp3')

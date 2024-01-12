@@ -10,12 +10,12 @@ class PokemonGame:
         self.screen = pygame.display.set_mode((750, 630))
 
         # Charger l'image d'arrière-plan
-        original_background = pygame.image.load('asets/Ma.jpg')
+        original_background = pygame.image.load('asetsi/Ma.jpg')
         new_size = (750, 630)
         self.background = pygame.transform.scale(original_background, new_size)
 
         # Charger logo pokemon
-        self.overlay_image = pygame.image.load('asets/pokemon_image.png')
+        self.overlay_image = pygame.image.load('asetsi/pokemon_image.png')
 
         # Définir la police
         self.font = pygame.font.Font(None, 36)
