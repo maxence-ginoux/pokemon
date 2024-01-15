@@ -1,5 +1,6 @@
 import pygame
 from music import *
+from game import *
 
 class PokemonGame:
     def __init__(self):
