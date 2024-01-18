@@ -4,7 +4,7 @@ from poke import Poke
 from combat import Combat
 from pokedex import Pokedex
 import random
-import json
+import json 
 
 # Initialiser Pygame
 pygame.init()
@@ -19,7 +19,6 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
 
-
 class Game:
     def __init__(self):
         self.clock = pygame.time.Clock()
@@ -28,37 +27,38 @@ class Game:
         self.pokedex = Pokedex()
         self.combat = Combat()
         self.player_pokemon = None
-        self.opponent_pokemon = None
+        self.opponent_pokemon = ""
         self.winner_message = None
         self.font = pygame.font.Font(None, 36)
 
     def start_game(self):
         # Chargez les données du fichier JSON dans le pokedex
         self.pokedex.load_pokedex()
-        print(self.pokedex.load_pokedex())
+        # print(self.pokedex.load_pokedex())
         # self.img  =  pygame.image("./pokemon/teste/images/Rondoudou.png") 
    
         # Vérifiez si le pokedex contient des données Pokémon
         if not self.pokedex.pokemon_list:
             print("Error: No Pokemon data loaded.")
             return
-
+          
         # Choisissez un adversaire aléatoire dans le Pokedex
-        opponent_data = random.choice(self.pokedex.pokemon_list)
-        # print(opponent_data)
-        self.opponent_pokemon = Poke(**opponent_data)
+        self.opponent_data = random.choice(self.pokedex.pokemon_list)
+        # print(self.opponent_data, "test")
+        return self.opponent_data
+        # self.opponent_pokemon = Poke(**opponent_data)
 
-        with open('pokedex.json', 'r') as json_file:
-            all_pokemon_data = json.load(json_file)
+        # with open('pokedex.json', 'r') as json_file:
+        #     all_pokemon_data = json.load(json_file)
 
-        player_data = random.choice(all_pokemon_data)
-        self.player_pokemon = Poke(**player_data)
+        # player_data = random.choice(all_pokemon_data)
+        # self.player_pokemon = Poke(**player_data)
 
         # Commencer le combat
-        self.play_game()
+        # self.play_game()
 
         # Afficher le message du gagnant
-        print(self.winner_message)
+        # print(self.winner_message)
 
     def play_game(self):
         running = True
@@ -96,10 +96,16 @@ class Game:
 
         pygame.quit()
 
-    def draw_pokemon(self, pokemon, x, y):
-        if pokemon:
-            text = self.font.render(pokemon.nom, True, WHITE)
-            self.screen.blit(text, (x, y))
+    def draw_pokemon(self, x, y):
+        # if self.opponent_data:
+        print(self.opponent_data)
+        text = self.font.render(self.opponent_data.nom, True, WHITE)
+        self.screen.blit(text, (x, y))
+        pygame.display.set_caption('image')
+        imp = self.opponent_data.img.convert_alpha()
+        self.screen.blit(imp, (0, 0))
+        pygame.display.flip()
+        
 
     def draw_health_bar(self, pokemon, x, y):
         if pokemon:
@@ -119,8 +125,10 @@ class Game:
             health_text = self.font.render(f"HP: {pokemon.point_de_vie}/{pokemon.point_de_vie}", True, WHITE)
             self.screen.blit(health_text, (x + 110, y))
 
-if __name__ == "__main__":
-    game = Game()
-    game.start_game()
+# if __name__ == "__main__":
+#     game = Game()
+#     game.start_game()
+            
 
-
+game = Game()
+game.start_game()

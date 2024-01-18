@@ -1,6 +1,7 @@
 import pygame
 from music import *
 from game import *
+from combat import * 
 
 class PokemonGame:
     def __init__(self):
@@ -11,7 +12,7 @@ class PokemonGame:
         self.screen = pygame.display.set_mode((750, 630))
 
         # Charger l'image d'arrière-plan
-        original_background = pygame.image.load('asetsi/Ma.jpg')
+        original_background = pygame.image.load('asetsi/ii.jpg')
         new_size = (750, 630)
         self.background = pygame.transform.scale(original_background, new_size)
 
@@ -25,9 +26,10 @@ class PokemonGame:
         self.black = (252, 212, 66)
 
         # Définir les boutons
-        self.enter_button_rect = pygame.Rect(100, 440, 150, 50)
-        self.add_pokemon_button_rect = pygame.Rect(240, 500, 270, 50)  # Nouveau bouton
-        self.pokedex_button_rect = pygame.Rect(500, 440, 150, 50)  # Nouveau bouton
+        self.enter_button_rect = pygame.Rect(100, 500, 150, 50) # bouton jouer 
+        self.add_pokemon_button_rect = pygame.Rect(240, 550, 270, 50)  # bouton ajouter pokemon
+        self.pokedex_button_rect = pygame.Rect(500, 500, 150, 50)  # bouton poedex
+        self.combat_button_rect = pygame.Rect(300, 470, 150, 50)  # bouton Combat
 
         # Musique
         self.music = Music()
@@ -60,6 +62,10 @@ class PokemonGame:
                 elif self.pokedex_button_rect.collidepoint(event.pos):
                     print("Bouton Pokédex cliqué")
                     # Ajoutez ici le code à exécuter lors du clic sur le bouton Pokédex
+                elif self.combat_button_rect.collidepoint(event.pos):
+                    print("Bouton Combat cliqué")
+                    # Ajoutez ici le code à exécuter lors du clic sur le bouton Combat
+                    combat.start_combat()
 
     def update_screen(self):
         # Appliquer l'arrière-plan de notre jeu
@@ -79,14 +85,18 @@ class PokemonGame:
         # pygame.draw.rect(self.screen, self.black, self.enter_button_rect)
         # pygame.draw.rect(self.screen, self.black, self.add_pokemon_button_rect)
         # pygame.draw.rect(self.screen, self.black, self.pokedex_button_rect)
+        # pygame.draw.rect(self.screen, self.black, self.combat_button_rect)
 
         # Afficher le texte des boutons
         enter_text = self.font.render("Jouer", True, self.black)
         add_pokemon_text = self.font.render("Ajoute un Pokémon", True, self.black)
         pokedex_text = self.font.render("Pokédex", True, self.black)
+        combat_text = self.font.render("Combat", True, self.black)
+
         self.screen.blit(enter_text, (self.enter_button_rect.x + 20, self.enter_button_rect.y + 15))
         self.screen.blit(add_pokemon_text, (self.add_pokemon_button_rect.x + 20, self.add_pokemon_button_rect.y + 15))
         self.screen.blit(pokedex_text, (self.pokedex_button_rect.x + 20, self.pokedex_button_rect.y + 15))
+        self.screen.blit(combat_text, (self.combat_button_rect.x + 20, self.combat_button_rect.y + 15))
 
         # Mettre à jour l'écran
         pygame.display.flip()
