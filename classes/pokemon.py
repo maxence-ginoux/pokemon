@@ -29,8 +29,8 @@
 # opponent_pokemon = Poke("img_opponent", "nom_opponent", 100, 5, 50, 30, ["Type3", "Type4"], "evolution_opponent")
 
 
-# Modifiez votre classe Poke dans le fichier poke.py
-class Poke:
+
+class Pokemon:
     def __init__(self, img, nom, point_de_vie, point_de_vie_max, niveau, points_expérience, points_expérience_max, puissance_attaque, defense, types, evolution, attaques):
         self.img = img
         self.nom = nom
@@ -71,4 +71,3 @@ class Poke:
         self.point_de_vie -= degats
         if self.point_de_vie < 0:
             self.point_de_vie = 0
-

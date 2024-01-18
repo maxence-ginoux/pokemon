@@ -1,5 +1,5 @@
 import json
-from poke import Poke
+from pokemon import Pokemon
 
 class Pokedex:
     def __init__(self, file_path="pokedex.json"):
@@ -9,7 +9,7 @@ class Pokedex:
     def load_pokedex(self):
         try:
             with open(self.file_path, "r") as file:
-                return [Poke(**entry) for entry in json.load(file)]
+                return [Pokemon(**entry) for entry in json.load(file)]
         except (FileNotFoundError, PermissionError, json.JSONDecodeError) as e:
             print(f"Error loading Pokedex: {e}")
             return []

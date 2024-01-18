@@ -104,34 +104,54 @@
 import pygame
 from pygame.locals import *
 from music import Music
-from game1 import Game
+from pokedex import Pokedex
+from combat import Combat
+from pokemon import Pokemon
+import random
+import json
+import sys
+import os
 
 class Menu:
     SCREEN_SIZE = (750, 630)
+    FPS = 60
 
     def __init__(self):
         pygame.init()
         self.init_game()
 
     def init_game(self):
-        # from game import Game  # Import Game inside the method
         pygame.display.set_caption("Pokemon")
         self.screen = pygame.display.set_mode(Menu.SCREEN_SIZE)
-        self.load_pokedex()  # Corrected method name
+        self.load_pokedex()
         self.init_buttons()
-        self.game = Game()
+        self.pokedex = Pokedex()
+        self.combat = Combat()
+        self.player_pokemon = None
+        self.to_dict_pokemon = None
+        self.winner_message = None
+        self.font = pygame.font.Font(None, 36)
         self.music = Music()
         self.music.change_music_opening()
         self.music.play()
         self.music.set_volume(0.01)
         self.running = True
+        self.clock = pygame.time.Clock()
 
     def load_pokedex(self):
-    # Assuming 'asetsi/Ma.jpg' is in the 'asetsi' directory relative to the script
-        self.background = pygame.transform.scale(pygame.image.load('images/Ma.jpg'), Menu.SCREEN_SIZE)
-        self.overlay_image = pygame.image.load('images/pokemon_image.png')
-        self.font = pygame.font.Font(pygame.font.get_default_font(), 36)  # Use default system font
-        self.black = (252, 212, 66)
+        try:
+            image_path = os.path.join(os.path.dirname(__file__), 'images', 'Ma.jpg')
+            self.background = pygame.transform.scale(pygame.image.load(image_path), Menu.SCREEN_SIZE)
+
+            overlay_path = os.path.join('images', 'pokemon_image.png')
+            self.overlay_image = pygame.image.load(overlay_path)
+
+            self.black = (0, 0, 0)
+        except pygame.error as e:
+            print(f"Error loading images: {e}")
+    pygame.quit()
+    sys.exit()
+
 
     def init_buttons(self):
         self.enter_button_rect = pygame.Rect(100, 440, 150, 50)
@@ -142,6 +162,53 @@ class Menu:
         while self.running:
             self.handle_events()
             self.update_screen()
+
+    def start_game(self):
+        self.pokedex.load_pokedex()
+
+        if not self.pokedex.pokemon_list:
+            print("Error: No Pokemon data loaded.")
+            return
+
+        to_dict = random.choice(self.pokedex.pokemon_list)
+        self.to_dict_pokemon = Pokemon(**to_dict)
+
+        with open('pokedex.json', 'r') as json_file:
+            all_pokemon_data = json.load(json_file)
+
+        player_data = random.choice(all_pokemon_data)
+        self.player_pokemon = Pokemon(**player_data)
+
+        self.play_game()
+        print(self.winner_message)
+
+    def play_game(self):
+        running = True
+        while running:
+            self.clock.tick(Menu.FPS)
+
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+                elif event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        self.combat.attaquer(self.player_pokemon, self.to_dict_pokemon)
+                    elif event.key == K_ESCAPE:
+                        pass
+
+            if self.combat.is_battle_over(self.player_pokemon, self.to_dict_pokemon):
+                self.winner_message = self.combat.determine_winner(
+                    self.player_pokemon, self.to_dict_pokemon
+                )
+                running = False
+
+            self.screen.fill((255, 255, 255))
+            self.draw_pokemon(self.player_pokemon, 50, 50)
+            self.draw_pokemon(self.to_dict_pokemon, 600, 50)
+            self.draw_health_bar(self.player_pokemon, 50, 30)
+            self.draw_health_bar(self.to_dict_pokemon, 600, 30)
+
+            pygame.display.flip()
 
         pygame.quit()
 
@@ -158,17 +225,13 @@ class Menu:
                     self.handle_pokedex_button_click()
 
     def handle_play_button_click(self):
-        # Add functionality for the "Jouer" button click
         self.font = pygame.font.Font(pygame.font.get_default_font(), 36)
-
         print("Bouton Jouer cliqué")
 
     def handle_add_pokemon_button_click(self):
-        # Add functionality for the "Ajouter un Pokémon" button click
         print("Bouton Ajouter un Pokémon cliqué")
 
     def handle_pokedex_button_click(self):
-        # Add functionality for the "Pokédex" button click
         print("Bouton Pokédex cliqué")
 
     def update_screen(self):
@@ -197,6 +260,3 @@ class Menu:
 if __name__ == "__main__":
     game = Menu()
     game.run()
-
-
-
