@@ -9,13 +9,24 @@ class Pokedex:
     def load_pokedex(self):
         try:
             with open(self.file_path, "r") as file:
-                return [Pokemon(**entry) for entry in json.load(file)]
-        except (FileNotFoundError, PermissionError, json.JSONDecodeError) as e:
-            print(f"Error loading Pokedex: {e}")
+                data = json.load(file)
+                return [self.create_pokemon(entry) for entry in data]
+        except FileNotFoundError:
+            print(f"Error: File '{self.file_path}' not found.")
+            return []
+        except json.JSONDecodeError:
+            print(f"Error: Unable to decode JSON from '{self.file_path}'.")
             return []
 
+    def create_pokemon(self, entry):
+        try:
+            return Pokemon(**entry)
+        except TypeError as e:
+            print(f"Error creating Pokemon: {e}")
+            return None
+
     def save_pokedex(self):
-        data = [pokemon.to_dict() for pokemon in self.pokemon_list]
+        data = [pokemon.to_dict() for pokemon in self.pokemon_list if pokemon]
         with open(self.file_path, "w") as file:
             json.dump(data, file, indent=2)
 
@@ -28,6 +39,7 @@ class Pokedex:
         for pokemon in self.pokemon_list:
             print(f"Nom: {pokemon.nom}, Types: {pokemon.types}, Defense: {pokemon.defense}, "
                   f"Puissance d'Attaque: {pokemon.puissance_attaque}, Point de Vie: {pokemon.point_de_vie}")
+
 
 
 

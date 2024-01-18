@@ -5,7 +5,7 @@ if __name__ == "__main__":
     game.start_menu()
 
 # main.py
-from pokedex import Pokedex
+from classes.pokedex import Pokedex
 from pokemon import Pokemon
 
 # Exemple d'utilisation
