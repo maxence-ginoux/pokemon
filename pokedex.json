@@ -1,82 +1,107 @@
 [
     {
-        "img": "./Toudoudou.png",
+        "img": "images/Toudoudou.png",
         "nom": "Toudoudou",
         "point_de_vie": 50,
+        "point_de_vie_max": 100,
         "niveau": 1,
+        "points_expérience": 0,
+        "points_expérience_max": 0,
         "puissance_attaque": 20,
         "defense": 15,
         "types": "Normale",
         "evolution": "Ronddoudou"
     },
-    {
-        "img": "./pokemon/teste/images/Rondoudou.png",
-        "nom": "Rondoudou",
-        "point_de_vie": 70,
-        "niveau": 1,
-        "puissance_attaque": 30,
-        "defense": 18,
-        "types": "Normale",
-        "evolution": "null"
-    },
-    {
-        "img": "/Documents/La_Plateforme/pokemon/pokemon/teste/images/Salaméche.png",
-        "nom": "Salaméche",
-        "point_de_vie": 50,
-        "niveau": 1,
-        "puissance_attaque": 20,
-        "defense": 15,
-        "types": "feu",
-        "evolution": "Reptincel"
-    },
-    {
-        "img": "/Documents/La_Plateforme/pokemon/pokemon/teste/images/Reptincel.png",
-        "nom": "Reptincel",
-        "point_de_vie": 70,
-        "niveau": 1,
-        "puissance_attaque": 30,
-        "defense": 18,
-        "types": "feu",
-        "evolution": "null"
-    },
-    {
-        "img": "/Documents/La_Plateforme/pokemon/pokemon/teste/images/Carapuce.png",
-        "nom": "Carapuce",
-        "point_de_vie": 50,
-        "niveau": 1,
-        "puissance_attaque": 20,
-        "defense": 15,
-        "types": "eau",
-        "evolution": "Carabaffe"
-    },
-    {
-        "img": "/Documents/La_Plateforme/pokemon/pokemon/teste/images/Carabaffe.png",
-        "nom": "Carabaffe",
-        "point_de_vie": 70,
-        "niveau": 1,
-        "puissance_attaque": 30,
-        "defense": 18,
-        "types": "eau",
-        "evolution": "null"
-    },
-    {
-        "img": "/Documents/La_Plateforme/pokemon/pokemon/teste/images/Osselait.png",
-        "nom": "Osselait",
-        "point_de_vie": 50,
-        "niveau": 1,
-        "puissance_attaque": 20,
-        "defense": 15,
-        "types": "terre",
-        "evolution": "Ossatueur"
-    },
-    {
-        "img": "/Documents/La_Plateforme/pokemon/pokemon/teste/images/Ossateur.png",
-        "nom": "Ossatueur",
-        "point_de_vie": 70,
-        "niveau": 1,
-        "puissance_attaque": 30,
-        "defense": 18,
-        "types": "terre",
-        "evolution": "null"
-    }
+    
+{
+    "img": "images/Rondoudou.png",
+    "nom": "Rondoudou",
+    "point_de_vie": 70,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 30,
+    "defense": 18,
+    "types": "Normale",
+    "evolution": "null"
+},
+{
+    "img": "images/Salaméche.png",
+    "nom": "Salaméche",
+    "point_de_vie": 50,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 20,
+    "defense": 15,
+    "types": "feu",
+    "evolution": "Reptincel"
+},
+{
+    "img": "images/Reptincel.png",
+    "nom": "Reptincel",
+    "point_de_vie": 70,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 30,
+    "defense": 18,
+    "types": "feu",
+    "evolution": "null"
+},
+{
+    "img": "images/Carapuce.png",
+    "nom": "Carapuce",
+    "point_de_vie": 50,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 20,
+    "defense": 15,
+    "types": "eau",
+    "evolution": "Carabaffe"
+},
+{
+    "img": "images/Carabaffe.png",
+    "nom": "Carabaffe",
+    "point_de_vie": 70,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 30,
+    "defense": 18,
+    "types": "eau",
+    "evolution": "null"
+},
+{
+    "img": "images/Osselait.png",
+    "nom": "Osselait",
+    "point_de_vie": 50,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 20,
+    "defense": 15,
+    "types": "terre",
+    "evolution": "Ossatueur"
+},
+{
+    "img": "images/Ossateur.png",
+    "nom": "Ossatueur",
+    "point_de_vie": 70,
+    "point_de_vie_max": 100,
+    "niveau": 1,
+    "points_expérience": 0,
+    "points_expérience_max": 0,
+    "puissance_attaque": 30,
+    "defense": 18,
+    "types": "terre",
+    "evolution": "null"
+}
 ]

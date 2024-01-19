@@ -1,50 +1,84 @@
-# class Poke:
-#     def __init__(self, img, nom, point_de_vie,point_de_vie_max, niveau, puissance_attaque, defense, types, evolution):
-#         self.img = img
-#         self.nom = nom
-#         self.point_de_vie = point_de_vie
-#         self.point_de_vie_max = point_de_vie_max
-#         self.niveau = niveau
-#         self.puissance_attaque = puissance_attaque
-#         self.defense = defense
-#         self.types = types
-#         self.evolution = evolution
-
-#     def vie(self):
-#         return self.point_de_vie > 0    
-
-#     def opponent_data(self):
-#         return {
-#             "img": self.img,
-#             "nom": self.nom,
-#             "point_de_vie": self.point_de_vie,
-#             "niveau": self.niveau,
-#             "puissance_attaque": self.puissance_attaque,
-#             "defense": self.defense,
-#             "types": self.types,
-#             "evolution": self.evolution
-#         }
-
-# player_pokemon = Poke("img_player", "nom_player", 100, 5, 50, 30, ["Type1", "Type2"], "evolution_player")
-# opponent_pokemon = Poke("img_opponent", "nom_opponent", 100, 5, 50, 30, ["Type3", "Type4"], "evolution_opponent")
-
-
-
 class Pokemon:
-    def __init__(self, img, nom, point_de_vie, point_de_vie_max, niveau, points_expérience, points_expérience_max, puissance_attaque, defense, types, evolution, attaques):
+    def __init__(self, img, nom, point_de_vie, point_de_vie_max, niveau, points_experience, points_experience_max, puissance_attaque, defense, types, evolution, attaques):
         # Initialisation pour l'attribut img
-        self.img = img if img else ""
+        self.img = img 
         self.nom = nom
         self.point_de_vie = point_de_vie
         self.point_de_vie_max = point_de_vie_max
         self.niveau = niveau
-        self.points_expérience = points_expérience  # Pour représenter la progression et l'expérience acquise
-        self.points_expérience_max = points_expérience_max
+        self.points_experience = points_experience  # Pour représenter la progression et l'expérience acquise
+        self.points_experience_max = points_experience_max
         self.puissance_attaque = puissance_attaque
         self.defense = defense
         self.types = types
         self.evolution = evolution
-        self.attaques = attaques if attaques else []  # Initialisation de attaques comme une liste vide s'il est None
+        self.attaques = attaques   # Initialisation de attaques comme une liste vide s'il est None
+
+    def get_nom(self):
+        return self.nom
+
+    def set_nom(self, nom):
+        self.nom = nom
+
+    def get_img(self):
+        return self.img
+
+    def set_img(self, img):
+        self.img = img    
+
+    def get_point_de_vie(self):
+        return self.point_de_vie
+    
+    def set_point_de_vie(self, point_de_vie):
+        self.point_de_vie = point_de_vie
+
+    def get_point_de_vie_max(self):
+        return self.point_de_vie_max
+    
+    def set_point_de_vie_max(self, point_de_vie_max):
+        self.point_de_vie_max = point_de_vie_max
+
+    def get_niveau(self):
+        return self.niveau
+    
+    def set_niveau(self, niveau):
+        self.niveau = niveau
+
+    def get_points_experience(self):
+        return self.points_experience
+    
+    def set_points_experience(self, points_experience):
+        self.points_experience = points_experience
+
+    def get_points_experience_max(self):
+        return self.points_experience_max
+    
+    def set_points_experience_max(self, points_experience_max):
+        self.points_experience_max = points_experience_max
+
+    def get_puissance_attaque(self):
+        return self.puissance_attaque
+    
+    def set_puissance_attaque(self, puissance_attaque):
+        self.puissance_attaque = puissance_attaque
+
+    def get_defense(self):
+        return self.defense
+    
+    def set_defense(self, defense):
+        self.defense = defense
+
+    def get_types(self):
+        return self.types
+    
+    def set_types(self, types):
+        self.types = types
+
+    def get_evolution(self):
+        return self.evolution
+    
+    def set_evolution(self, evolution):
+        self.evolution = evolution
 
     def gagner_points_experience(self, amount):
         if amount > 0:
@@ -73,4 +107,21 @@ class Pokemon:
         self.point_de_vie -= degats
         if self.point_de_vie < 0:
             self.point_de_vie = 0
+
+
+# Instancier la classe Pokemon avec les valeurs définies
+# pokemon = Pokemon(img, nom, point_de_vie, point_de_vie_max, niveau, points_expérience, points_expérience_max, puissance_attaque, defense, types, evolution, attaques)
+
+# # Afficher les attributs du Pokemon
+# print("Nom du Pokemon:", pokemon.nom)
+# print("Niveau:", pokemon.niveau)
+# print("Points de vie:", pokemon.point_de_vie)
+# print("Attaques:", pokemon.attaques)
+
+
+
+
+
+
+
 
