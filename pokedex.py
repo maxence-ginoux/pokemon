@@ -1,35 +1,44 @@
 import json
+from pokemon import Pokemon
 
 class Pokedex:
     def __init__(self, file_path="pokedex.json"):
         self.file_path = file_path
-        self.pokemon_list = []
-        self.load_pokedex()
+        self.pokemon_list = self.load_pokedex()
 
     def load_pokedex(self):
         try:
             with open(self.file_path, "r") as file:
-                self.pokemon_list = json.load(file)
-                return self.pokemon_list
-                
+                data = json.load(file)
+                return [self.create_pokemon(entry) for entry in data]
         except FileNotFoundError:
-            pass
-        except (PermissionError, json.JSONDecodeError) as e:
-            print(f"Error loading Pokedex: {e}")
+            print(f"Error: File '{self.file_path}' not found.")
+            return []
+        except json.JSONDecodeError:
+            print(f"Error: Unable to decode JSON from '{self.file_path}'.")
+            return []
+
+    def create_pokemon(self, entry):
+        try:
+            return Pokemon(**entry)
+        except TypeError as e:
+            print(f"Error creating Pokemon: {e}")
+            return None
+
+    def save_pokedex(self):
+        data = [pokemon.to_dict() for pokemon in self.pokemon_list if pokemon]
+        with open(self.file_path, "w") as file:
+            json.dump(data, file, indent=2)
 
     def add_pokemon(self, pokemon):
-        if not any(p["nom"] == pokemon.nom for p in self.pokemon_list):
-            self.pokemon_list.append(pokemon.to_dict())
-            with open(self.file_path, "w") as file:
-                json.dump(self.pokemon_list, file, indent=2)
+        if not any(p.nom == pokemon.nom for p in self.pokemon_list):
+            self.pokemon_list.append(pokemon)
+            self.save_pokedex()
 
     def display_pokemon_list(self):
         for pokemon in self.pokemon_list:
-            print(f"Nom: {pokemon['nom']}, Types: {pokemon['types']}, Defense: {pokemon['defense']}, "
-                  f"Puissance d'Attaque: {pokemon['puissance_attaque']}, Point de Vie: {pokemon['point_de_vie']}")
-
-
-poke = Pokedex()
+            print(f"Nom: {pokemon.nom}, Types: {pokemon.types}, Defense: {pokemon.defense}, "
+                  f"Puissance d'Attaque: {pokemon.puissance_attaque}, Point de Vie: {pokemon.point_de_vie}")
 
 
 

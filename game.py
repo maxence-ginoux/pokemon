@@ -55,7 +55,7 @@ class Game:
         # self.player_pokemon = Poke(**player_data)
 
         # Commencer le combat
-        # self.play_game()
+        self.play_game()
 
         # Afficher le message du gagnant
         # print(self.winner_message)
@@ -66,7 +66,7 @@ class Game:
             self.clock.tick(FPS)
 
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
 
             # Implémenter la logique du jeu en utilisant la classe Combat
@@ -125,10 +125,10 @@ class Game:
             health_text = self.font.render(f"HP: {pokemon.point_de_vie}/{pokemon.point_de_vie}", True, WHITE)
             self.screen.blit(health_text, (x + 110, y))
 
-# if __name__ == "__main__":
-#     game = Game()
-#     game.start_game()
+if __name__ == "__main__":
+    game = Game()
+    game.start_game()
             
 
-game = Game()
-game.start_game()
+# game = Game()
+# game.start_game()
