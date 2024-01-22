@@ -3,6 +3,8 @@ from pokemon import Pokemon
 import pygame
 from pygame.locals import QUIT
 
+pygame.init()
+
 class Pokedex:
     def __init__(self):
         self.pokemon_list = []
@@ -27,15 +29,20 @@ class Pokedex:
                         ("point_de_vie", 0),
                         ("point_de_vie_max", 0),
                         ("niveau", 1),
-                        ("points_expérience", 0),
-                        ("points_expérience_max", 0),
+                        ("points_experience", 0),
+                        ("points_experience_max", 0),
                         ("puissance_attaque", 0),
                         ("defense", 0),
                         ("types", ""),
                         ("evolution", ""),
-                        # ("attaques", [])
+                        ("attaques", [])
                     ]}
                     
+                    # Convertir les valeurs numériques en entiers si nécessaire
+                    for key in ["point_de_vie", "point_de_vie_max", "niveau", "points_experience",
+                                "points_experience_max", "puissance_attaque", "defense"]:
+                        pokemon_data[key] = int(pokemon_data[key])
+
                     # Afficher le dictionnaire poke_data
                     print("pokemon_data:", pokemon_data)
 
@@ -49,6 +56,8 @@ class Pokedex:
                 print("Error: Incomplete or invalid data in pokedex.json")
         except FileNotFoundError:
             pass
+        # except Exception as e:
+        #         print(f"Error loading Pokedex: {e}")
 
     def print_meet_pokemon(self):
         for pokemon in self.pokemon_list:
@@ -63,38 +72,38 @@ pokedex.print_meet_pokemon()  # Appeler la méthode print_meet_pokemon pour affi
 
 
 
-# pygame.init()
+pygame.init()
 
-# # Définir la taille de la fenêtre
-# largeur, hauteur = 600, 600
+# Définir la taille de la fenêtre
+largeur, hauteur = 600, 600
 
-# # Créer la fenêtre
-# fenetre = pygame.display.set_mode((largeur, hauteur))
+# Créer la fenêtre
+fenetre = pygame.display.set_mode((largeur, hauteur))
 
-# # Définir la couleur blanche
-# blanc = (255, 255, 255)
+# Définir la couleur blanche
+blanc = (255, 255, 255)
 
-# # Remplir la fenêtre avec la couleur blanche
-# fenetre.fill(blanc)
+# Remplir la fenêtre avec la couleur blanche
+fenetre.fill(blanc)
 
-# # Afficher les images des Pokemon sur la fenêtre
-# for i, pokemon in enumerate(pokedex.pokemon_list):
-#     img_path = pokemon.img  
-#     img = pygame.image.load(img_path)
-#     fenetre.blit(img, (i * 150, 0))  # Dessiner l'image sur la fenêtre
+# Afficher les images des Pokemon sur la fenêtre
+for i, pokemon in enumerate(pokedex.pokemon_list):
+    img_path = pokemon.img  
+    img = pygame.image.load(img_path)
+    fenetre.blit(img, (i * 150, 0))  # Dessiner l'image sur la fenêtre
 
-# # Mettre à jour l'affichage
-# pygame.display.flip()
+# Mettre à jour l'affichage
+pygame.display.flip()
 
-# # Boucle principale
-# continuer = True
-# while continuer:
-#     for event in pygame.event.get():
-#         if event.type == QUIT:
-#             continuer = False
+# Boucle principale
+continuer = True
+while continuer:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            continuer = False
 
-# # Quitter Pygame
-# pygame.quit()
+# Quitter Pygame
+pygame.quit()
 
 
 

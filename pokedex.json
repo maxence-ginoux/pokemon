@@ -10,7 +10,7 @@
         "puissance_attaque": 20,
         "defense": 15,
         "types": "Normale",
-        "evolution": "Ronddoudou"
+        "evolution": "Rondoudou"
     },
     
 {
@@ -27,8 +27,8 @@
     "evolution": "null"
 },
 {
-    "img": "images/Salaméche.png",
-    "nom": "Salaméche",
+    "img": "images/Salameche.png",
+    "nom": "Salameche",
     "point_de_vie": 50,
     "point_de_vie_max": 100,
     "niveau": 1,
@@ -92,7 +92,7 @@
     "evolution": "Ossatueur"
 },
 {
-    "img": "images/Ossateur.png",
+    "img": "images/Ossatueur.png",
     "nom": "Ossatueur",
     "point_de_vie": 70,
     "point_de_vie_max": 100,

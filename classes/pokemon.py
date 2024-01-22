@@ -1,6 +1,6 @@
 class Pokemon:
     def __init__(self, img, nom, point_de_vie, point_de_vie_max, niveau, points_experience, points_experience_max, puissance_attaque, defense, types, evolution, attaques):
-        # Initialisation pour l'attribut img
+        # Initialisation pour les attributs 
         self.img = img 
         self.nom = nom
         self.point_de_vie = point_de_vie
@@ -80,11 +80,16 @@ class Pokemon:
     def set_evolution(self, evolution):
         self.evolution = evolution
 
+    def get_attaques(self):
+        return self.attaques
+    
+    def set_attaques(self, attaques):
+        self.attaques = attaques
+
     def gagner_points_experience(self, amount):
-        if amount > 0:
-            self.points_expérience += amount
-            if self.points_expérience >= self.points_expérience_max:
-                self.monter_niveau()
+        self.points_experience += amount
+        while self.points_experience >= self.points_experience_max:
+            self.monter_niveau()
 
     def monter_niveau(self):
         self.niveau += 1
@@ -110,13 +115,13 @@ class Pokemon:
 
 
 # Instancier la classe Pokemon avec les valeurs définies
-# pokemon = Pokemon(img, nom, point_de_vie, point_de_vie_max, niveau, points_expérience, points_expérience_max, puissance_attaque, defense, types, evolution, attaques)
-
-# # Afficher les attributs du Pokemon
-# print("Nom du Pokemon:", pokemon.nom)
-# print("Niveau:", pokemon.niveau)
-# print("Points de vie:", pokemon.point_de_vie)
-# print("Attaques:", pokemon.attaques)
+pokemon = Pokemon("img", "nom", "point_de_vie", "point_de_vie_max", "niveau", "points_experience", "points_experience_max", "puissance_attaque", "defense", "types", "evolution", "attaques")
+            
+# Afficher les attributs du Pokemon
+print("Nom du Pokemon:", pokemon.nom)
+print("Niveau:", pokemon.niveau)
+print("Points de vie:", pokemon.point_de_vie)
+print("Attaques:", pokemon.attaques)
 
 
 
