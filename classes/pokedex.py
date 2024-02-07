@@ -1,180 +1,180 @@
 import json
-from pokemon import Pokemon
 import pygame
-from pygame.locals import QUIT
+import sys
+from pygame.locals import QUIT, MOUSEBUTTONDOWN
+#from Combat import Combat  # Importez la classe Combat du fichier combat.py
+
 
 pygame.init()
+
+# Paramètres de la fenêtre
+screen = pygame.display.set_mode((850, 630))
+pygame.display.set_caption("Pokémon")
+
+# Charger l'image d'arrière-plan
+background_pokedex = pygame.image.load("assets/scene3.png")
+background_pokedex = pygame.transform.scale(background_pokedex, (850, 630))
+
+# Couleurs
+BLANC = (255, 255, 255)
+BLEU = (50, 100, 176)
+ROUGE = (255, 0, 0)
+JAUNE = (255, 204, 1)
+
+# Initialiser le module de police
+pygame.font.init()
 
 class Pokedex:
     def __init__(self):
         self.pokemon_list = []
+        self.menu_button_rect = pygame.Rect(600, 500, 180, 50)  # Coordonnées et dimensions du bouton "Retour au menu"
+        self.return_to_menu = False  # Variable pour suivre si le bouton "Retour au menu" a été cliqué
+        self.pokemon_rects = []  # Stocker les rectangles des boutons pour la détection de collision
+        self.selected_pokemon = []  # Stocker les Pokémon sélectionnés
 
     def load_pokedex(self):
         try:
-            with open('pokedex.json') as file:
-                file_content = file.read()
-                loaded_data = json.loads(file_content)
-                print("Loaded Data:", loaded_data)
+            with open('Pokedex.json') as file:
+                loaded_data = json.load(file)
 
-            if all("nom" in pokemon and "types" in pokemon and "defense" in pokemon
-                   and "puissance_attaque" in pokemon and "point_de_vie" in pokemon
-                   for pokemon in loaded_data):
-                # Crée des instances de la classe Pokemon en utilisant les données chargées
+            if isinstance(loaded_data, list) and len(loaded_data) > 0:
+                # Extraire le dictionnaire de la liste
+                loaded_data_dict = loaded_data[0]
+
                 loaded_pokemon_list = []
-                for pokemon_data in loaded_data:
-                    # Compréhension de dictionnaire pour obtenir dynamiquement des valeurs
-                    pokemon_data = {key: pokemon_data.get(key, default) for key, default in [
-                        ("img", ""),
-                        ("nom", ""),
-                        ("point_de_vie", 0),
-                        ("point_de_vie_max", 0),
-                        ("niveau", 1),
-                        ("points_experience", 0),
-                        ("points_experience_max", 0),
-                        ("puissance_attaque", 0),
-                        ("defense", 0),
-                        ("types", ""),
-                        ("evolution", ""),
-                        ("attaques", [])
-                    ]}
-                    
-                    # Convertir les valeurs numériques en entiers si nécessaire
-                    for key in ["point_de_vie", "point_de_vie_max", "niveau", "points_experience",
-                                "points_experience_max", "puissance_attaque", "defense"]:
-                        pokemon_data[key] = int(pokemon_data[key])
-
-                    # Afficher le dictionnaire poke_data
-                    print("pokemon_data:", pokemon_data)
-
-                    # Crée une instance Pokemon avec les données fournies
-                    pokemon_instance = Pokemon(**pokemon_data)
-                    loaded_pokemon_list.append(pokemon_instance)
+                for pokemon_name, pokemon_info in loaded_data_dict.items():
+                    loaded_pokemon_list.append(pokemon_info)
 
                 self.pokemon_list = loaded_pokemon_list
                 return self.pokemon_list
             else:
-                print("Error: Incomplete or invalid data in pokedex.json")
-        except FileNotFoundError:
-            pass
-        # except Exception as e:
-        #         print(f"Error loading Pokedex: {e}")
+                print("Erreur : Structure incorrecte dans pokedex.json")
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(f"Erreur : {e}")
+            return None
 
-    def print_meet_pokemon(self):
-        for pokemon in self.pokemon_list:
-            print(f"Nom: {pokemon.nom}, Niveau: {pokemon.niveau}, Types: {pokemon.types}")
+    def dessiner_bouton_menu(self, screen):
+        pygame.draw.rect(screen, BLEU, self.menu_button_rect)
+        font = pygame.font.SysFont(None, 25)
+        text_surface = font.render("Retour au menu", True, JAUNE)
+        text_rect = text_surface.get_rect(center=self.menu_button_rect.center)
+        screen.blit(text_surface, text_rect)            
+                
+    def choisir_pokemon_combat(self):
+        pygame.display.set_caption("Sélection des Pokémon pour le combat")
+        screen = pygame.display.set_mode((850, 630))
 
+        clock = pygame.time.Clock()
+        font = pygame.font.Font(None, 36)
+        input_font = pygame.font.Font(None, 28)
 
-pokedex = Pokedex()
-pokedex.load_pokedex()  # Appeler la méthode load_pokedex pour charger les données
-pokedex.print_meet_pokemon()  # Appeler la méthode print_meet_pokemon pour afficher les informations
+        self.selected_pokemon = []  # Réinitialiser les Pokémon sélectionnés
 
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.boutton == 1:  # Left mouse button
+                        self.gerer_clic_pokemon(event, screen)
+                    elif event.button == 3:  # Right mouse button
+                        if len(self.selected_pokemon) == 2:
+                            # Initiate the battle with the selected Pokémon
+                            self.initier_combat(self.selected_pokemon[0], self.selected_pokemon[1], screen)
+                            return  # Return after the battle
+                        else:
+                            self.selected_pokemon = []
 
+            screen.fill((255, 255, 255))
 
-
-
-pygame.init()
-
-# Définir la taille de la fenêtre
-largeur, hauteur = 600, 600
-
-# Créer la fenêtre
-fenetre = pygame.display.set_mode((largeur, hauteur))
-
-# Définir la couleur blanche
-blanc = (255, 255, 255)
-
-# Remplir la fenêtre avec la couleur blanche
-fenetre.fill(blanc)
-
-# Afficher les images des Pokemon sur la fenêtre
-for i, pokemon in enumerate(pokedex.pokemon_list):
-    img_path = pokemon.img  
-    img = pygame.image.load(img_path)
-    fenetre.blit(img, (i * 150, 0))  # Dessiner l'image sur la fenêtre
-
-# Mettre à jour l'affichage
-pygame.display.flip()
-
-# Boucle principale
-continuer = True
-while continuer:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            continuer = False
-
-# Quitter Pygame
-pygame.quit()
+            # Afficher les options de choix des Pokémon
+            text = font.render("Sélectionnez deux Pokémon pour le combat:", True, (0, 0, 0))
+            screen.blit(text, (20, 20))
 
 
+            self.pokemon_rects = []   
+
+            for i, (pokemon_info, y_offset) in enumerate(zip(self.pokemon_list, range(60, 60 + len(self.pokemon_list) * 100, 100)), start=1):
+                text = input_font.render(f"{i}. {pokemon_info['nom']}", True, (0, 0, 0))
+                rect = text.get_rect(topleft=(20, y_offset))
+                self.pokemon_rects.append(rect)
+
+                
+                img = pygame.image.load(pokemon_info['img'])  
+                img = pygame.transform.scale(img, (100, 100))  # Ajustez la taille de l'image selon vos besoins
+
+                # Charger l'image du Pokémon
+                pokemon_image_rect = img.get_rect(topleft=(rect.right + 10, y_offset))
+
+                # Blitter le texte et l'image sur l'écran
+                screen.blit(text, rect.topleft)
+                screen.blit(img, pokemon_image_rect.topleft)
+
+           
+            pygame.display.flip()
+            clock.tick(30)
 
 
+    # def initier_combat(self, attaquant, defenseur, screen):
+    #     combat_instance = Combat(attaquant, defenseur, screen)
+    #     combat_instance.commencer_combat()
 
+    # def gerer_clic_pokemon(self, event, screen):
+    #     x, y = event.pos
+    #     for i, (pokemon_rect, pokemon_info) in enumerate(zip(self.pokemon_rects, self.pokemon_list), start=1):
+    #         if pokemon_rect.collidepoint(x, y):
+    #             if pokemon_info not in self.selected_pokemon:
+    #                 self.selected_pokemon.append(pokemon_info)
 
+    def display_pokemon_info(self):
+        pygame.display.set_caption("Pokedex")
+        font = pygame.font.SysFont(None, 36)
+        running = True
 
+        while running:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+                elif event.type == MOUSEBUTTONDOWN:
+                    x, y = event.pos
+                    # Vérifie si les coordonnées de la souris sont à l'intérieur du bouton "Retour au menu"
+                    if self.menu_button_rect.collidepoint(x, y):
+                        self.return_to_menu = True  # Définissez la variable sur True lorsque vous cliquez sur le bouton
+                        running = False  # Quitter la boucle
 
+            # Vérifiez si la pokemon_list n'est pas vide avant d'essayer d'accéder à ses éléments
+            if self.pokemon_list:
+                screen.blit(background_pokedex, (0, 0))
 
+                # Afficher les images et les informations des pokemons
+                for i, pokemon_info in enumerate(self.pokemon_list):
+                    # Afficher l'image du pokemon
+                    img_path = pokemon_info['img']
+                    img_surface = pygame.image.load(img_path)
+                    screen.blit(img_surface, (350, 120 + i * 120))
+                    # Afficher le nom du pokemon
+                    font = pygame.font.Font(None, 20)
+                    text = font.render(pokemon_info['nom'], True, BLANC)
+                    screen.blit(text, (500, 120 + i * 120))
+                    # Afficher le niveau du pokemon
+                    text = font.render(f"Niveau : {pokemon_info['niveau']}", True, BLANC)
+                    screen.blit(text, (500, 140 + i * 120))
+                    # Afficher le type du pokemon
+                    text = font.render(f"Type : {pokemon_info['types']}", True, BLANC)
+                    screen.blit(text, (500, 160 + i * 120))
 
+                # Affiche le bouton "Retour au menu"
+                self.dessiner_bouton_menu(screen)
 
+                pygame.display.flip()
 
+# Créer une instance du Pokedex
+pokedex_instance = Pokedex()
 
+# Charger les données du Pokedex
+pokedex_instance.load_pokedex()
 
-
-
-
-
-
-
-
-
-
-
-# import json
-# from pokemon import Pokemon
-
-# class Pokedex:
-#     def __init__(self, file_path="pokedex.json"):
-#         self.file_path = file_path
-#         self.pokemon_list = self.load_pokedex()
-
-#     def load_pokedex(self):
-#         try:
-#             with open(self.file_path, "r") as file:
-#                 data = json.load(file)
-#                 return [self.create_pokemon(entry) for entry in data]
-#         except FileNotFoundError:
-#             print(f"Error: File '{self.file_path}' not found.")
-#             return []
-#         except json.JSONDecodeError:
-#             print(f"Error: Unable to decode JSON from '{self.file_path}'.")
-#             return []
-
-#     def create_pokemon(self, entry):
-#         try:
-#             return Pokemon(**entry)
-#         except TypeError as e:
-#             print(f"Error creating Pokemon: {e}")
-#             return None
-
-#     def save_pokedex(self):
-#         data = [pokemon.to_dict() for pokemon in self.pokemon_list if pokemon]
-#         with open(self.file_path, "w") as file:
-#             json.dump(data, file, indent=2)
-
-#     def add_pokemon(self, pokemon):
-#         if not any(p.nom == pokemon.nom for p in self.pokemon_list):
-#             self.pokemon_list.append(pokemon)
-#             self.save_pokedex()
-
-#     def display_pokemon_list(self):
-#         for pokemon in self.pokemon_list:
-#             print(f"Nom: {pokemon.nom}, Types: {pokemon.types}, Defense: {pokemon.defense}, "
-#                   f"Puissance d'Attaque: {pokemon.puissance_attaque}, Point de Vie: {pokemon.point_de_vie}")
-
-
-
-# pokedex = Pokedex()
-# pokedex.load_pokedex()  # Appeler la méthode load_pokedex pour charger les données
-# pokedex.print_meet_pokemon()  # Appeler la méthode print_meet_pokemon pour afficher les informations
 
 
 

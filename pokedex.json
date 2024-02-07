@@ -10,9 +10,9 @@
         "puissance_attaque": 20,
         "defense": 15,
         "types": "Normale",
-        "evolution": "Rondoudou"
+        "evolution": "Rondoudou",
+        "rencontrer": false
     },
-    
 {
     "img": "images/Rondoudou.png",
     "nom": "Rondoudou",
@@ -24,7 +24,8 @@
     "puissance_attaque": 30,
     "defense": 18,
     "types": "Normale",
-    "evolution": "null"
+    "evolution": "null",
+    "rencontrer": false
 },
 {
     "img": "images/Salameche.png",
@@ -37,7 +38,8 @@
     "puissance_attaque": 20,
     "defense": 15,
     "types": "feu",
-    "evolution": "Reptincel"
+    "evolution": "Reptincel",
+    "rencontrer": true
 },
 {
     "img": "images/Reptincel.png",
@@ -50,7 +52,8 @@
     "puissance_attaque": 30,
     "defense": 18,
     "types": "feu",
-    "evolution": "null"
+    "evolution": "null",
+    "rencontrer": true
 },
 {
     "img": "images/Carapuce.png",
@@ -63,7 +66,8 @@
     "puissance_attaque": 20,
     "defense": 15,
     "types": "eau",
-    "evolution": "Carabaffe"
+    "evolution": "Carabaffe",
+    "rencontrer": false
 },
 {
     "img": "images/Carabaffe.png",
@@ -76,7 +80,8 @@
     "puissance_attaque": 30,
     "defense": 18,
     "types": "eau",
-    "evolution": "null"
+    "evolution": "null",
+    "rencontrer": false
 },
 {
     "img": "images/Osselait.png",
@@ -89,7 +94,8 @@
     "puissance_attaque": 20,
     "defense": 15,
     "types": "terre",
-    "evolution": "Ossatueur"
+    "evolution": "Ossatueur",
+    "rencontrer": true
 },
 {
     "img": "images/Ossatueur.png",
@@ -102,6 +108,7 @@
     "puissance_attaque": 30,
     "defense": 18,
     "types": "terre",
-    "evolution": "null"
+    "evolution": "null",
+    "rencontrer": true
 }
 ]
